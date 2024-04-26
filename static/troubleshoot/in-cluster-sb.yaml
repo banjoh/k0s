@@ -3,6 +3,8 @@ kind: SupportBundle
 metadata:
   name: k0s-cluster-in-cluster-support-bundle
 spec:
+  # TODO: Update me please
+  uri: https://raw.githubusercontent.com/banjoh/k0s/em/add-troubleshoot-specs/static/troubleshoot/in-cluster-sb.yaml
   collectors:
     - clusterInfo: {}
     - clusterResources: {}
