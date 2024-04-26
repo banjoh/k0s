@@ -1,0 +1,67 @@
+apiVersion: troubleshoot.sh/v1beta2
+kind: SupportBundle
+metadata:
+  name: k0s-cluster-host-support-bundle
+spec:
+  uri: https://raw.githubusercontent.com/replicatedhq/embedded-cluster/main/pkg/goods/support/host-support-bundle.yaml
+  hostCollectors:
+    - hostServices: {}
+    - cpu: {}
+    - hostOS: {}
+    - memory: {}
+    - blockDevices: {}
+    - diskUsage:
+        collectorName: k0s-data-disk-usage
+        path: /var/lib/k0s
+    - run:
+        collectorName: k0s-status
+        command: /usr/local/bin/k0s
+        args: ['status']
+    - run:
+        collectorName: k0s-os-info
+        command: sh
+        args: ['-c', 'uname -srvmo; cat /etc/os-release || lsb_release -a']
+    - run:
+        collectorName: k0s-sysinfo
+        command: /usr/local/bin/k0s
+        args: ['sysinfo']
+    - run:
+        collectorName: k0s/controller-logs
+        command: journalctl
+        args:
+          ['--since', '2 days ago', '--no-pager', '-u', 'k0scontroller.service']
+  hostAnalyzers:
+    - memory:
+        checkName: Amount of Memory
+        outcomes:
+          - warn:
+              when: '< 1G'
+              message: At least 1G of memory is recommended
+          - pass:
+              message: The system has at least 1G of memory
+    - diskUsage:
+        checkName: k0s data disk usage
+        collectorName: k0s-data-disk-usage
+        outcomes:
+          - fail:
+              when: 'total < 40Gi'
+              message: The disk containing directory /var/lib/k0s has less than 40Gi of total space
+          - warn:
+              when: 'used/total > 80%'
+              message: The disk containing directory / is more than 80% full
+          - warn:
+              when: 'available < 10Gi'
+              message: The disk containing directory / has less than 10Gi of disk space available
+          - pass:
+              message: The disk containing directory / has sufficient space
+    - textAnalyze:
+        checkName: Kubernetes API probing
+        fileName: host-collectors/run-host/k0s-status.txt
+        regex: 'Kube-api probing successful: true'
+        outcomes:
+          - fail:
+              when: 'false'
+              message: Kubernetes API probing is reporting a failure
+          - pass:
+              when: 'true'
+              message: Kubernetes API probing is reporting success
