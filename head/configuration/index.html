@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/k0s_social.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
     
     
       
@@ -2526,15 +2526,15 @@ k0sctl</a> and the <a href="https://github.com/k0sproject/k0sctl/blob/main/READM
 </tr>
 <tr>
 <td><code>podCIDR</code></td>
-<td>Pod network CIDR to use in the cluster.</td>
+<td>Pod network CIDR to use in the cluster. Defaults to <code>10.244.0.0/16</code>.</td>
 </tr>
 <tr>
 <td><code>serviceCIDR</code></td>
-<td>Network CIDR to use for cluster VIP services.</td>
+<td>Network CIDR to use for cluster VIP services. Defaults to <code>10.96.0.0/12</code>.</td>
 </tr>
 <tr>
 <td><code>clusterDomain</code></td>
-<td>Cluster Domain to be passed to the <a href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/#kubelet-config-k8s-io-v1beta1-KubeletConfiguration">kubelet</a> and the coredns configuration.</td>
+<td>Cluster Domain to be passed to the <a href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/#kubelet-config-k8s-io-v1beta1-KubeletConfiguration">kubelet</a> and the coredns configuration. Defaults to <code>cluster.local</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -2573,7 +2573,7 @@ k0sctl</a> and the <a href="https://github.com/k0sproject/k0sctl/blob/main/READM
 </tr>
 <tr>
 <td><code>flexVolumeDriverPath</code></td>
-<td>The host path for Calicos flex-volume-driver(default: <code>/usr/libexec/k0s/kubelet-plugins/volume/exec/nodeagent~uds</code>). Change this path only if the default path is unwriteable (refer to <a href="https://github.com/projectcalico/calico/issues/2712">Project Calico Issue #2712</a> for details). Ideally, you will pair this option with a custom <code>volumePluginDir</code> in the profile you use for your worker nodes.</td>
+<td>The host path for Calicos flex-volume-driver(default: <code>/usr/libexec/k0s/kubelet-plugins/volume/exec/nodeagent~uds</code>). Change this path only if the default path is unwritable (refer to <a href="https://github.com/projectcalico/calico/issues/2712">Project Calico Issue #2712</a> for details). Ideally, you will pair this option with a custom <code>volumePluginDir</code> in the profile you use for your worker nodes.</td>
 </tr>
 <tr>
 <td><code>ipAutodetectionMethod</code></td>
@@ -3023,7 +3023,6 @@ by k0s.</p>
 <li><code>spec.images.coredns</code></li>
 <li><code>spec.images.pause</code></li>
 <li><code>spec.images.calico.cni</code></li>
-<li><code>spec.images.calico.flexvolume</code></li>
 <li><code>spec.images.calico.node</code></li>
 <li><code>spec.images.calico.kubecontrollers</code></li>
 <li><code>spec.images.kuberouter.cni</code></li>
@@ -3035,14 +3034,19 @@ by k0s.</p>
 <h4 id="image-example">Image example<a class="headerlink" href="#image-example" title="Permanent link">#</a></h4>
 <div class="highlight"><pre><span></span><code><span class="nt">images</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my.own.repo&quot;</span>
-<span class="w">  </span><span class="nt">konnectivity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">calico/kube-controllers</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3.16.2</span>
+<span class="w">  </span><span class="nt">calico</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kubecontrollers</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quay.io/k0sproject/calico-kube-controllers</span>
+<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3.27.3-0</span>
 <span class="w">  </span><span class="nt">metricsserver</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quay.io/k0sproject/metrics-server</span>
 <span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.7.1-0</span>
 </code></pre></div>
-<p>In the runtime the image names are calculated as <code>my.own.repo/calico/kube-controllers:v3.16.2</code> and <code>my.own.repo/k0sproject/metrics-server:v0.7.1-0</code>. This only affects the the imgages pull location, and thus omitting an image specification here will not disable component deployment.</p>
+<p>In the runtime the image names are calculated as
+<code>my.own.repo/k0sproject/calico-kube-controllers:v3.27.3-0</code> and
+<code>my.own.repo/k0sproject/metrics-server:v0.7.1-0</code>. This only affects the the
+images pull location, and thus omitting an image specification here will not
+disable component deployment.</p>
 <h3 id="specextensionshelm"><code>spec.extensions.helm</code><a class="headerlink" href="#specextensionshelm" title="Permanent link">#</a></h3>
 <p><code>spec.extensions.helm</code> is the config file key in which you configure the list of <a href="https://helm.sh">Helm</a> repositories and charts to deploy during cluster bootstrap (for more information, refer to <a href="../helm-charts/">Helm Charts</a>).</p>
 <h3 id="speckonnectivity"><code>spec.konnectivity</code><a class="headerlink" href="#speckonnectivity" title="Permanent link">#</a></h3>
@@ -3171,7 +3175,7 @@ api-server, without that k0s serves no purpose.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["toc.autohide", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../assets/javascripts/bundle.af256bd8.min.js"></script>
       
     
   </body>
