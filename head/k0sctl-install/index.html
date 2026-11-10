@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../img/k0s-favicon-192.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -3245,6 +3245,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 <p><strong>Note</strong>: Refer to the <a href="https://github.com/k0sproject/k0sctl#configuration-file-spec-fields">k0sctl documentation</a> for k0sctl configuration specifications.</p>
 <h3 id="3-deploy-the-cluster">3. Deploy the cluster<a class="headerlink" href="#3-deploy-the-cluster" title="Permanent link">#</a></h3>
 <p>Run <code>k0sctl apply</code> to perform the cluster deployment:</p>
+<p><strong>Note</strong> k0sctl uses <code>k0sctl.yaml</code> by default. You can specify a different file with <code>--config &lt;path&gt;</code></p>
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span>k0sctl<span class="w"> </span>apply<span class="w"> </span>--config<span class="w"> </span>k0sctl.yaml
 
 <span class="go">⠀⣿⣿⡇⠀⠀⢀⣴⣾⣿⠟⠁⢸⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀█████████ █████████ ███</span>
@@ -3267,8 +3268,8 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 <span class="go">INFO ==&gt; Running phase: Validate hosts</span>
 <span class="go">INFO ==&gt; Running phase: Gather k0s facts</span>
 <span class="go">INFO ==&gt; Running phase: Download K0s on the hosts</span>
-<span class="go">INFO [ssh] 10.0.0.2:22: downloading k0s v1.37.1+head</span>
-<span class="go">INFO [ssh] 10.0.0.1:22: downloading k0s v1.37.1+head</span>
+<span class="go">INFO [ssh] 10.0.0.2:22: downloading k0s v1.37.2+head</span>
+<span class="go">INFO [ssh] 10.0.0.1:22: downloading k0s v1.37.2+head</span>
 <span class="go">INFO ==&gt; Running phase: Configure K0s</span>
 <span class="go">WARN [ssh] 10.0.0.1:22: generating default configuration</span>
 <span class="go">INFO [ssh] 10.0.0.1:22: validating configuration</span>
@@ -3285,13 +3286,13 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 <span class="go">INFO [ssh] 10.0.0.2:22: waiting for node to become ready</span>
 <span class="go">INFO ==&gt; Running phase: Disconnect from hosts</span>
 <span class="go">INFO ==&gt; Finished in 2m2s</span>
-<span class="go">INFO k0s cluster version v1.37.1+head is now installed</span>
+<span class="go">INFO k0s cluster version v1.37.2+head is now installed</span>
 <span class="go">INFO Tip: To access the cluster you can now fetch the admin kubeconfig using:</span>
 <span class="go">INFO      k0sctl kubeconfig</span>
 </code></pre></div>
 <h3 id="4-access-the-cluster">4. Access the cluster<a class="headerlink" href="#4-access-the-cluster" title="Permanent link">#</a></h3>
 <p>To access your k0s cluster, use k0sctl to generate a <code>kubeconfig</code> for the purpose.</p>
-<div class="highlight"><pre><span></span><code>k0sctl<span class="w"> </span>kubeconfig<span class="w"> </span>&gt;<span class="w"> </span>kubeconfig
+<div class="highlight"><pre><span></span><code>k0sctl<span class="w"> </span>kubeconfig<span class="w"> </span>--config<span class="w"> </span>k0sctl.yaml<span class="w"> </span>&gt;<span class="w"> </span>kubeconfig
 </code></pre></div>
 <p>With the <code>kubeconfig</code>, you can access your cluster using either kubectl or <a href="https://k8slens.dev/">Lens</a>.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--kubeconfig<span class="w"> </span>kubeconfig<span class="w"> </span>-A
@@ -3409,10 +3410,10 @@ kube-system<span class="w">   </span>metrics-server-6fbcd86f7b-5frtn<span class=
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["toc.autohide", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["toc.autohide", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>
